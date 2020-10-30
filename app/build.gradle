@@ -13,7 +13,7 @@ android {
         versionName "1.0"
 
         ndk {
-            abiFilters "armeabi",'armeabi-v7a','arm64-v8a' //要生成的so库类别
+            abiFilters "armeabi",'armeabi-v7a','arm64-v8a','x86','x86_64' //要生成的so库类别
         }
     }
 

@@ -3,17 +3,317 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/sample_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/jni_java_base_type_table"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/jni_java_reference_type_table"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/jni_visit_java_class_method_property"/>
+
+            <TextView
+                android:id="@+id/jni_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="获取jni版本"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick" />
+
+            <TextView
+                android:id="@+id/new_string"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Native中创建字符串"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick" />
+
+            <TextView
+                android:id="@+id/string_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="获取字符串长度" />
+
+            <TextView
+                android:id="@+id/char_index"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="根据索引获取字符串中字符" />
+
+            <TextView
+                android:id="@+id/sub_string"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="截取字符串" />
+
+            <TextView
+                android:id="@+id/new_array"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Native中创建数组"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"/>
+
+            <TextView
+                android:id="@+id/array_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="获取数组大小"
+                />
+
+            <TextView
+                android:id="@+id/element_index"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="获取索引位置元素" />
+
+            <TextView
+                android:id="@+id/set_element_index"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="根据索引修改数组元素"/>
+
+            <TextView
+                android:id="@+id/sub_array"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="截取数组的一部分"/>
+
+            <TextView
+                android:id="@+id/sort_array"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="数组排序"/>
+
+            <TextView
+                android:id="@+id/native_call_java_custom_property"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="c++调用java对象普通属性"/>
+
+            <TextView
+                android:id="@+id/native_call_java_static_property"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="c++调用java类静态属性"/>
+
+            <TextView
+                android:id="@+id/native_set_java_custom_property"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="c++设置java对象普通属性"/>
+
+            <TextView
+                android:id="@+id/native_set_java_static_property"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="c++设置java类静态属性"/>
+
+            <TextView
+                android:id="@+id/native_call_java_custom_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="c++调用java对象普通方法"/>
+
+            <TextView
+                android:id="@+id/native_call_java_static_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="c++调用java类静态方法"/>
+
+            <TextView
+                android:id="@+id/native_call_parent_java_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="调用父类的非抽象方法"/>
+
+            <TextView
+                android:id="@+id/native_create_java_object"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="c++创建java对象"/>
+
+            <TextView
+                android:id="@+id/check_exception"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="判断native是否发生异常"/>
+
+            <TextView
+                android:id="@+id/catch_exception"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="捕捉c++层抛出的异常"/>
+
+            <TextView
+                android:id="@+id/reference_operation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="引用操作"/>
+
+            <TextView
+                android:id="@+id/native_synchronized"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="本地线程同步"/>
+
+            <TextView
+                android:id="@+id/java_reference_native_object"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="Java持久化c/c++对象"/>
+
+            <TextView
+                android:id="@+id/native_reference_java_object"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="c/c++持久化Java对象"/>
+
+            <TextView
+                android:id="@+id/dynamic_register_natives"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="动态注册方法"/>
+
+            <TextView
+                android:id="@+id/dynamic_unRegister_natives"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="动态注销方法(先执行 动态注册方法按钮)"/>
+
+            <TextView
+                android:id="@+id/reflectedField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="反射替换属性"/>
+
+            <TextView
+                android:id="@+id/restoreField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="还原属性(先执行 反射替换属性按钮)"/>
+
+            <TextView
+                android:id="@+id/reflectedMethod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="反射替换方法"/>
+
+            <TextView
+                android:id="@+id/restoreMethod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:onClick="onClick"
+                android:text="还原方法(先执行 反射替换方法按钮)"/>
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
