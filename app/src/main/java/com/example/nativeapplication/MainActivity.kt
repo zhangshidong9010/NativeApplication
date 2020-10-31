@@ -10,10 +10,12 @@ import com.example.nativelibrary.NativeCallJava
 import com.example.nativelibrary.NativeCallJavaParent
 
 class MainActivity : AppCompatActivity() ,View.OnClickListener{
+    private lateinit var nativeCallJava:NativeCallJava
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        nativeCallJava = NativeCallJava()
     }
 
     override fun onClick(v: View?) {
@@ -189,31 +191,27 @@ class MainActivity : AppCompatActivity() ,View.OnClickListener{
                         var result = Native.dynamicUnregisterNative()
                         Toast.makeText(this, result, Toast.LENGTH_SHORT).show()
                     }
+
                     R.id.reflectedField -> {
-                        var nativeCallJava = NativeCallJava()
-                        var srcField = nativeCallJava.javaClass.getDeclaredField("srcField")
-                        var desField = nativeCallJava::class.java.getDeclaredField("desField")
+                        var srcField = NativeCallJava::class.java.getDeclaredField("srcField")
+                        var desField = NativeCallJava::class.java.getDeclaredField("desField")
                         HookManager.hookField(srcField, desField)
-                        var str = nativeCallJava.srcField
-                        Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, nativeCallJava.srcField, Toast.LENGTH_SHORT).show()
                     }
                     R.id.restoreField -> {
                         var desField = NativeCallJava::class.java.getDeclaredField("desField")
-                        var nativeCallJava = NativeCallJava()
                         HookManager.restoreField(desField)
                         Toast.makeText(this, nativeCallJava.srcField, Toast.LENGTH_SHORT).show()
                     }
                     R.id.reflectedMethod -> {
                         var srcMethod = NativeCallJava::class.java.getDeclaredMethod("srcMethod")
                         var desMethod = NativeCallJava::class.java.getDeclaredMethod("desMethod")
-                        var nativeCallJava = NativeCallJava()
-                        var str = nativeCallJava.srcMethod()
+                        var str = nativeCallJava.srcMethod() //先调用，否则hook完，没有该方法
                         HookManager.hookMethod(srcMethod, desMethod)
                         Toast.makeText(this, nativeCallJava.srcMethod(), Toast.LENGTH_SHORT).show()
                     }
                     R.id.restoreMethod -> {
                         var desMethod = NativeCallJava::class.java.getDeclaredMethod("desMethod")
-                        var nativeCallJava = NativeCallJava()
                         HookManager.restoreMethod(desMethod)
                         Toast.makeText(this, nativeCallJava.srcMethod(), Toast.LENGTH_SHORT).show()
                     }
@@ -221,6 +219,7 @@ class MainActivity : AppCompatActivity() ,View.OnClickListener{
             }
         }catch (th: Throwable){
             th.printStackTrace()
+            Toast.makeText(this, th.message, Toast.LENGTH_SHORT).show()
         }
     }
 
