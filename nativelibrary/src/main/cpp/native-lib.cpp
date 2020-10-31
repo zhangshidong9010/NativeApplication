@@ -2,6 +2,8 @@
 #include <string.h>
 #include <android/log.h>
 #include <assert.h>
+#include "Person.h"
+#include "Utils.cpp"
 
 #define TAG "test" // 这个是自定义的LOG的标识
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG,TAG ,__VA_ARGS__) // 定义LOGD类型
@@ -21,7 +23,9 @@ Java_com_example_nativelibrary_Native_getStringLength(JNIEnv *env, jobject thiz,
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_example_nativelibrary_Native_createString(JNIEnv *env, jobject thiz) {
-    return (*env).NewStringUTF("Hello world JNI");
+  //  return (*env).NewStringUTF("Hello world JNI"); //JNI提供的方法
+  jstring str = env->NewStringUTF(getStringFromC().c_str());
+  return str;
 }
 
 extern "C"
@@ -93,11 +97,11 @@ Java_com_example_nativelibrary_Native_subArray(JNIEnv *env, jobject thiz, jintAr
 }
 
 extern "C"
-JNIEXPORT jintArray JNICALL
+JNIEXPORT void JNICALL
 Java_com_example_nativelibrary_Native_sortArray(JNIEnv *env, jobject thiz, jintArray array) {
-//    jint *intArray = env->GetIntArrayElements(array,NULL);
-//    int length = env->GetArrayLength(array);
-
+    jint *intArray = env->GetIntArrayElements(array,NULL);
+    quickSort(intArray,0,env->GetArrayLength(array)-1);
+    env->ReleaseIntArrayElements(array, intArray, 0);
 }
 
 extern "C"
@@ -285,6 +289,41 @@ Java_com_example_nativelibrary_Native_nativeSynchronized(JNIEnv *env, jobject th
 
 }
 
+extern "C"
+JNIEXPORT jlong JNICALL
+Java_com_example_nativelibrary_JniPerson_createNativeObject(JNIEnv *env, jobject thiz) {
+    jlong result;
+    result =(jlong) new Person();
+    return result;
+}
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_example_nativelibrary_JniPerson_getAge(JNIEnv *env, jobject thiz, jlong addr) {
+    return ((Person*)addr)->getAge();
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_nativelibrary_JniPerson_setAge(JNIEnv *env, jobject thiz, jlong addr, jint age) {
+    //对象指针调用方法
+    ((Person*)addr)->setAge(age);
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_example_nativelibrary_JniPerson_getName(JNIEnv *env, jobject thiz, jlong addr) {
+    char* name =  ((Person*)addr)->getName();
+    return env->NewStringUTF(name);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_nativelibrary_JniPerson_setName(JNIEnv *env, jobject thiz, jlong addr,jstring name) {
+    char *str = const_cast<char *>(env->GetStringUTFChars(name, NULL));
+    ((Person*)addr)->setName(str);
+}
+
 
 
 
@@ -422,6 +461,7 @@ JNI_OnLoad(JavaVM* vm, void* reserved) {
     result = JNI_VERSION_1_4;
     return result;
 }
+
 
 
 

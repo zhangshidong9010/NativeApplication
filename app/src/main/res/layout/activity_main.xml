@@ -251,15 +251,6 @@
                 android:text="Java持久化c/c++对象"/>
 
             <TextView
-                android:id="@+id/native_reference_java_object"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textSize="17sp"
-                android:onClick="onClick"
-                android:text="c/c++持久化Java对象"/>
-
-            <TextView
                 android:id="@+id/dynamic_register_natives"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

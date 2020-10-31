@@ -4,9 +4,6 @@ import java.lang.reflect.Field
 import java.lang.reflect.Method
 
 object Native {
-    init {
-        System.loadLibrary("native-lib")
-    }
 
     //字符串相关操作
     external fun createString():String
@@ -20,7 +17,7 @@ object Native {
     external fun getElementFromArray(index:Int,array:Array<String>):String
     external fun setObjectArrayElement(array:Array<String>,index: Int,value:String)
     external fun subArray(array: IntArray,startIndex: Int,endIndex:Int):IntArray
-    external fun sortArray(array: IntArray):IntArray
+    external fun sortArray(array: IntArray)
 
     //反射支持
     external fun nativeCallJavaStaticMethod():String
