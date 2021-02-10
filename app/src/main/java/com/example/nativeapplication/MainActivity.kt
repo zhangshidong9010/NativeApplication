@@ -1,10 +1,13 @@
 package com.example.nativeapplication
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.nativelibrary.*
+import de.robv.android.xposed.DexposedBridge
+import de.robv.android.xposed.XC_MethodHook
 
 
 class MainActivity : AppCompatActivity() ,View.OnClickListener{
@@ -15,6 +18,7 @@ class MainActivity : AppCompatActivity() ,View.OnClickListener{
         setContentView(R.layout.activity_main)
         nativeCallJava = NativeCallJava()
         System.loadLibrary("native-lib")
+        hookMethod()
     }
 
     override fun onClick(v: View?) {
@@ -176,12 +180,53 @@ class MainActivity : AppCompatActivity() ,View.OnClickListener{
                         HookManager.restoreMethod(desMethod)
                         Toast.makeText(this, nativeCallJava.srcMethod(), Toast.LENGTH_SHORT).show()
                     }
+                    R.id.monitorMethod -> {
+                      Thread{
+                          kotlin.run {
+                             Log.i("test","线程${Thread.currentThread().name}正在执行")
+                          }
+                      }.start()
+                    }
                 }
             }
         }catch (th: Throwable){
             th.printStackTrace()
             Toast.makeText(this, th.message, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun hookMethod(){
+        DexposedBridge.findAndHookMethod(MainActivity::class.java, "onClick", View::class.java, object : XC_MethodHook() {
+            @Throws(Throwable::class)
+            override fun beforeHookedMethod(param: MethodHookParam) {
+                super.beforeHookedMethod(param)
+                val view = param.args[0] as View
+                Log.i("test", "beforeHookedMethod onClick, ${view.id}")
+            }
+
+            override fun afterHookedMethod(param: MethodHookParam?) {
+                super.afterHookedMethod(param)
+                param?.let {
+                    val view = it.args[0] as View
+                    Log.i("test", "beforeHookedMethod onClick, ${view.id}")
+                }
+            }
+        })
+
+        DexposedBridge.hookAllConstructors(Thread::class.java, object : XC_MethodHook() {
+            @Throws(Throwable::class)
+            override fun afterHookedMethod(param: MethodHookParam) {
+                super.afterHookedMethod(param)
+                val thread = param.thisObject as Thread
+                val clazz: Class<*> = thread.javaClass
+                if (clazz != Thread::class.java) {
+                    Log.d("test", "found class extend Thread:$clazz")
+                    DexposedBridge.findAndHookMethod(clazz, "run", ThreadMethodHook())
+                }
+                Log.d("test", "Thread: " + thread.name + " class:" + thread.javaClass + " is created.")
+            }
+        })
+        DexposedBridge.findAndHookMethod(Thread::class.java, "run", ThreadMethodHook())
     }
 
 }
